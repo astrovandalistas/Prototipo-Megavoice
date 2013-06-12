@@ -8,7 +8,10 @@ class Megavoice(PrototypeInterface):
         self.messageQ will have all messages coming in from LocalNet """
     def setup(self):
         ## pick what to subscribe to
-        pass
+        self.subscribeToAll()
+        ## or....
+        for k in self.allReceivers.keys():
+            self.subscribeTo(k)
     def loop(self):
         ## check state
         ## if (not self.messageQ.empty())
