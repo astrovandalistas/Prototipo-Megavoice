@@ -27,13 +27,9 @@ class Megavoice(PrototypeInterface):
         if ((not self.messageQ.empty()) and
             (time.time() - self.lastQueueCheck > self.queueDelay)):
             (locale,type,txt) = self.messageQ.get()
-            txt = txt.replace("#","")
             ## TODO: detect language!
-            ## TODO: sanitize text message
-            ##       #tag -> something else
-            ##       á -> aa, etc
-            ## then remove any nonAscii characters
-            txt = self.removeNonAscii(txt.encode('utf-8'))
+            ## then remove accents and nonAscii characters
+            txt = self.removeNonAscii(self.removeAccents(txt.encode('utf-8')))
             toSay = (FESTIVALCMD+FESTIVALBIN).replace("LANG",FESTIVAL_ES)
             toSay = toSay.replace("XXXXX",txt)
             subprocess.call(toSay, shell=True)
