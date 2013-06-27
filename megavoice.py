@@ -6,7 +6,7 @@ from interfaces import PrototypeInterface, runPrototype
 
 FESTIVAL_ES = "voice_cstr_upc_upm_spanish_hts"
 FESTIVAL_EN = "voice_cstr_upc_upm_spanish_hts"
-FESTIVALBIN = "/Users/thiago/Dev/festival-2.1/SpanishHTSVoice-ver0.8/build/festival/bin/festival"
+FESTIVALBIN = "./festival"
 FESTIVALCMD = "echo \"(LANG) (SayText \\\"XXXXX\\\")\" | "
 
 class Megavoice(PrototypeInterface):
