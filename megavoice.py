@@ -22,6 +22,8 @@ class Megavoice(PrototypeInterface):
         ## some variables
         self.queueDelay = 30
         self.lastQueueCheck = time.time()
+        ## turn up the volume
+        subprocess.call("amixer set PCM -- -0", shell=True)
     def loop(self):
         ## check state
         if ((not self.messageQ.empty()) and
