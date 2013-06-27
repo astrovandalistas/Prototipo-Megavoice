@@ -11,3 +11,4 @@ Dependencies:
 On RaspberryPi:
 - sudo apt-get install libncurses5-dev
 - add snd_pcm_oss to /etc/modules
+- add link to festival binary to current directory
