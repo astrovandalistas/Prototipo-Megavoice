@@ -14,11 +14,15 @@ class Megavoice(PrototypeInterface):
         all prototypes must define setup() and loop() functions
         self.messageQ will have all messages coming in from LocalNet """
     def setup(self):
-        ## pick what to subscribe to
+        ## subscribe to all receivers
         self.subscribeToAll()
-        ## or....
+        """
+        ## or pick which ones
         for k in self.allReceivers.keys():
             self.subscribeTo(k)
+        ## or subscribe to osc
+            self.subscribeTo('osc')
+        """
         ## some variables
         self.queueDelay = 30
         self.lastQueueCheck = time.time()
