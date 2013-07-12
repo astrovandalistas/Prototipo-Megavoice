@@ -48,11 +48,9 @@ class Megavoice(PrototypeInterface):
             subprocess.call(toSay, shell=True)
             self.lastQueueCheck = time.time()
             if(self.messageQ.qsize() > 50):
-                self.queueDelay = 10
-            elif(self.messageQ.qsize() > 10):
-                self.queueDelay = 20
+                self.queueDelay = 1
             else:
-                self.queueDelay = 30
+                self.queueDelay = 5
 
 if __name__=="__main__":
     ## TODO: get ip and ports from command line
