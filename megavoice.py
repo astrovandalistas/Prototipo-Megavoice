@@ -2,7 +2,7 @@
 
 import sys, time, subprocess, getopt
 from Queue import Queue
-from random import random
+from random import random, uniform
 sys.path.append("../LocalNet")
 from interfaces import PrototypeInterface, runPrototype
 import langid
@@ -57,31 +57,34 @@ class Megavoice(PrototypeInterface):
             mLanguage = FESTIVAL_ES if(langid.classify(txt)[0] == 'es') else FESTIVAL_EN
             mTagger = self.esTagger if(mLanguage == FESTIVAL_ES) else self.enTagger
 
-            ##words.sort(cmp=(lambda w0,w1:(len(w0)-len(w1))))
-
             ## make up a message
             madeUpMessage = txt.lower()
             txtWords = madeUpMessage.replace(",","").replace(".","").replace("?","").replace("!","").split()
             replaceCount = 0
             longishWords = 0
             for (word,tag) in mTagger.tag(txtWords):
-                if(len(word) > 4):
+                ## if word is worth using
+                if((tag) and (len(word) > 4) and (type != "madeup")):
                     longishWords += 1
-                if((tag in self.tagDict) and 
-                    (not word == self.tagDict[tag]) and 
-                    (len(word) > 4) and (len(self.tagDict[tag])) and
-                    (random() < 0.66)):
-                    print "%s <-%s-> %s"%(word,tag,self.tagDict[tag])
-                    madeUpMessage = madeUpMessage.replace(word,self.tagDict[tag])
-                    replaceCount += 1
-                # put this (word,tag) in dictionary
-                if((tag) and 
-                    ((not tag in self.tagDict) or (random() < 0.66))):
-                    self.tagDict[tag] = word
-            
-            if((longishWords != 0) and (float(replaceCount)/longishWords > 0.5)):
+                    if(tag in self.tagDict):
+                        newWord = self.tagDict[tag][int(uniform(0,len(self.tagDict[tag])))]
+                        if((newWord != word) and (random() < 0.66)):
+                            ##print "%s <-%s-> %s"%(word,tag,newWord)
+                            madeUpMessage = madeUpMessage.replace(" "+word+" "," "+newWord+" ")
+                            replaceCount += 1
+                    ## tag not in dict
+                    else:
+                        self.tagDict[tag] = []
+                        
+                    ## if array is full, pop a random word
+                    if(len(self.tagDict[tag]) > 9):
+                        self.tagDict[tag].pop(int(uniform(0,len(self.tagDict[tag]))))
+                    ## finally, put word in array
+                    self.tagDict[tag].append(word)
+
+            if((longishWords != 0) and (float(replaceCount)/float(longishWords) > 0.5)):
                 print "pushing madeup message: "+madeUpMessage
-                self.messageQ.put((locale,type,madeUpMessage))
+                self.messageQ.put(("","madeup",madeUpMessage))
 
             ## then remove accents and nonAscii characters
             txt = self.removeNonAscii(self.removeAccents(txt.encode('utf-8')))
