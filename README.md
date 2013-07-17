@@ -8,6 +8,7 @@ Dependencies:
 - [LocalNet](https://github.com/astrovandalistas/LocalNet)
 - [Festival](http://www.cstr.ed.ac.uk/projects/festival)
 - [langid.py](https://github.com/saffsd/langid.py)
+- [nltk](http://nltk.org)
 
 On RaspberryPi:
 - sudo apt-get install libncurses5-dev
