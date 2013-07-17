@@ -79,7 +79,7 @@ class Megavoice(PrototypeInterface):
                     ((not tag in self.tagDict) or (random() < 0.66))):
                     self.tagDict[tag] = word
             
-            if(float(replaceCount)/longishWords > 0.5):
+            if((longishWords != 0) and (float(replaceCount)/longishWords > 0.5)):
                 print "pushing madeup message: "+madeUpMessage
                 self.messageQ.put((locale,type,madeUpMessage))
 
