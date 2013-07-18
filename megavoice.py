@@ -98,15 +98,17 @@ class Megavoice(PrototypeInterface):
                 self.queueDelay = 3
 
 if __name__=="__main__":
-    (inPort, localNetAddress, localNetPort) = (8989, "127.0.0.1", 8888)
-    opts, args = getopt.getopt(sys.argv[1:],"i:n:o:",["inport=","localnet=","localnetport="])
+    (inIp, inPort, localNetAddress, localNetPort) = ("127.0.0.1", 8989, "127.0.0.1", 8900)
+    opts, args = getopt.getopt(sys.argv[1:],"i:p:n:o:",["inip=", "inport=","localnet=","localnetport="])
     for opt, arg in opts:
-        if(opt in ("--inport","-i")):
+        if(opt in ("--inip","-i")):
+            inIp = str(arg)
+        elif(opt in ("--inport","-p")):
             inPort = int(arg)
         elif(opt in ("--localnet","-n")):
             localNetAddress = str(arg)
         elif(opt in ("--localnetport","-o")):
             localNetPort = int(arg)
 
-    mM = Megavoice(inPort, localNetAddress, localNetPort)
+    mM = Megavoice(inIp, inPort, localNetAddress, localNetPort)
     runPrototype(mM)
