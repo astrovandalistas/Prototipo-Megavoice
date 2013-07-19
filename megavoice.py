@@ -14,8 +14,8 @@ FESTIVAL_EN = "voice_kal_diphone"
 FESTIVALBIN = "./festival"
 FESTIVALCMD = "echo \"(LANG) (SayText \\\"XXXXX\\\")\" | "
 
-class Megavoice(PrototypeInterface):
-    """ Megavoice prototype class
+class ISO(PrototypeInterface):
+    """ ISO prototype class
         all prototypes must define setup() and loop() functions
         self.messageQ will have all messages coming in from LocalNet """
     def setup(self):
@@ -106,5 +106,5 @@ if __name__=="__main__":
         elif(opt in ("--localnetport","-o")):
             localNetPort = int(arg)
 
-    mM = Megavoice(inIp, inPort, localNetAddress, localNetPort)
+    mM = ISO(inIp, inPort, localNetAddress, localNetPort)
     runPrototype(mM)
