@@ -29,7 +29,7 @@ class Megavoice(PrototypeInterface):
             self.subscribeTo('osc')
         """
         ## some variables
-        self.queueDelay = 3
+        self.queueDelay = 1
         self.lastQueueCheck = time.time()
 
         ## turn up the volume
@@ -51,6 +51,7 @@ class Megavoice(PrototypeInterface):
         ## check state
         if ((not self.messageQ.empty()) and
             (time.time() - self.lastQueueCheck > self.queueDelay)):
+            self.lastQueueCheck = time.time()
             (locale,type,txt) = self.messageQ.get()
 
             ## detect language!
@@ -91,11 +92,6 @@ class Megavoice(PrototypeInterface):
             toSay = (FESTIVALCMD+FESTIVALBIN).replace("LANG",mLanguage)
             toSay = toSay.replace("XXXXX",txt)
             subprocess.call(toSay, shell=True)
-            self.lastQueueCheck = time.time()
-            if(self.messageQ.qsize() > 50):
-                self.queueDelay = 1
-            else:
-                self.queueDelay = 3
 
 if __name__=="__main__":
     (inIp, inPort, localNetAddress, localNetPort) = ("127.0.0.1", 8989, "127.0.0.1", 8900)
