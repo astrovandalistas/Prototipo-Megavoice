@@ -33,7 +33,7 @@ class Megavoice(PrototypeInterface):
         self.lastQueueCheck = time.time()
 
         ## turn up the volume
-        subprocess.call("amixer set PCM -- -0", shell=True)
+        subprocess.call("amixer set PCM -- -100", shell=True)
 
         ## for language identification
         langid.set_languages(['en','es'])
